@@ -134,9 +134,9 @@ return parsedData;
 **Configuratie:**
 - **Name:** Generate Word Document
 - **Method:** POST
-- **URL:** `https://sinterklaas-poem-backend.onrender.com/generate-word`
-  - **Development:** `http://localhost:3000/generate-word`
-  - **Production:** `https://sinterklaas-poem-backend.onrender.com/generate-word`
+- **URL:** `https://sinterklaas-word-generator.onrender.com/generate-word`
+  - **Development:** `http://localhost:5000/generate-word`
+  - **Production:** `https://sinterklaas-word-generator.onrender.com/generate-word`
 
 **Headers:**
 ```
@@ -272,12 +272,12 @@ Een `.docx` bestand dat je kunt downloaden met:
 
 ### Development:
 ```
-http://localhost:3000/generate-word
+http://localhost:5000/generate-word
 ```
 
 ### Production:
 ```
-https://sinterklaas-poem-backend.onrender.com/generate-word
+https://sinterklaas-word-generator.onrender.com/generate-word
 ```
 
 ---
