@@ -1040,6 +1040,13 @@
         </div>
     </footer>
 
+    <!-- Configuration - Override in Netlify environment variables or here -->
+    <script>
+        // Set backend URL for production (can be overridden via window.BACKEND_URL)
+        window.BACKEND_URL = window.BACKEND_URL || 'https://sinterklaas-poem-backend.onrender.com';
+        window.WEBHOOK_URL = window.WEBHOOK_URL || 'https://dev.promptgorillas.com/webhook/receive_message';
+    </script>
+
     <script>
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
