@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sinterklaas Gedicht Generator - PromptGorillas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --heading-blue: #112c69;
+            --button-blue: #3c66fa;
+            --button-blue-hover: #2d4ed4;
+            --element-blue: #d7e3fc;
+            --white: #FFFFFF;
+            --text-dark: rgb(14, 15, 17);
+            --text-gray: #6B7280;
+        }
+
+        body {
+            font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            font-size: 18px;
+        }
+
+        /* Info Bar */
+        .info-bar {
+            background: var(--heading-blue);
+            color: var(--white);
+            text-align: center;
+            padding: 0.75rem 5%;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Header */
+        header {
+            background: var(--white);
+            padding: 1.5rem 5%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--button-blue);
+        }
+
+        /* Hero Section */
+        .hero {
+            background-image: url('https://my.nomadsoffice.nl/images/0/20583320/GeneratedImageNovember042025-5_20PM1-TYZcJ5cXSZAcWkbwhDDm2Q.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 4rem 5% 6rem;
+            position: relative;
+            overflow: hidden;
+            min-height: 500px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(17, 44, 105, 0.5);
+            z-index: 0;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text {
+            max-width: 800px;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-text h1 .highlight {
+            color: var(--white);
+            background: rgba(60, 102, 250, 0.8);
+            padding: 0 0.3rem;
+            border-radius: 10px;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--button-blue);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 18px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(60, 102, 250, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(60, 102, 250, 0.4);
+            background: var(--button-blue-hover);
+        }
+
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 5%;
+        }
+
+        /* How it Works Section */
+        .how-it-works {
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--heading-blue);
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: -2rem auto 3rem;
+        }
+
+        /* Tips Section */
+        .tips-section {
+            background: var(--element-blue);
+            padding: 4rem;
+            border-radius: 30px;
+            margin: 4rem 0;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .tip-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .tip-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tip-card h4 {
+            color: var(--heading-blue);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .tip-card p {
+            color: var(--text-gray);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+
+        .step:hover {
+            transform: translateY(-5px);
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--button-blue);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 0 auto 1.5rem;
+        }
+
+        .step h3 {
+            font-size: 1.3rem;
+            color: var(--heading-blue);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .step p {
+            color: var(--text-gray);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        /* Chatbot Section */
+        .chatbot-section {
+            background: var(--element-blue);
+            padding: 4rem;
+            border-radius: 30px;
+            margin-bottom: 4rem;
+        }
+
+        .chatbot-container {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 3rem;
+            align-items: stretch;
+        }
+
+        .chatbot-mascot {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chatbot-mascot img {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .chat-interface {
+            background: var(--white);
+            border-radius: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .chat-header {
+            background: var(--button-blue);
+            color: var(--white);
+            padding: 1.5rem 2rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .chat-messages {
+            padding: 2rem;
+            min-height: 500px;
+            max-height: 600px;
+            overflow-y: auto;
+            background: var(--white);
+            flex: 1;
+        }
+
+        .message {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .message.bot {
+            flex-direction: row;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .message-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .message-content {
+            background: var(--white);
+            padding: 1rem 1.5rem;
+            border-radius: 20px;
+            max-width: 70%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .message.user .message-content {
+            background: var(--heading-blue);
+            color: var(--white);
+        }
+
+        /* Style Choice Buttons */
+        .style-choices {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .style-button {
+            padding: 1rem 1.5rem;
+            background: var(--white);
+            border: 2px solid var(--element-blue);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 16px;
+        }
+
+        .style-button:hover {
+            background: var(--element-blue);
+            border-color: var(--button-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(60, 102, 250, 0.2);
+        }
+
+        .style-button strong {
+            color: var(--heading-blue);
+            display: block;
+            margin-bottom: 0.25rem;
+            font-size: 17px;
+        }
+
+        .style-button span {
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+
+        /* Poem Generation Loading */
+        .poem-generating {
+            text-align: center;
+            padding: 2rem;
+            background: var(--element-blue);
+            border-radius: 20px;
+            margin: 1rem 0;
+            animation: fadeIn 0.5s;
+        }
+
+        .poem-loading-content h3 {
+            color: var(--heading-blue);
+            margin: 1rem 0 0.5rem;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .poem-loading-content p {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .poem-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--element-blue);
+            border-top: 4px solid var(--button-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Final Poem Display */
+        .final-poem {
+            background: linear-gradient(135deg, var(--heading-blue), var(--button-blue));
+            padding: 2.5rem;
+            border-radius: 30px;
+            margin: 1.5rem 0;
+            color: white;
+            animation: fadeIn 0.5s;
+            box-shadow: 0 10px 40px rgba(60, 102, 250, 0.3);
+        }
+
+        .poem-content h3 {
+            color: white;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        .poem-text {
+            background: rgba(255,255,255,0.15);
+            padding: 2rem;
+            border-radius: 20px;
+            line-height: 2;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            white-space: pre-line;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .poem-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .copy-poem-btn,
+        .new-poem-btn {
+            background: white;
+            color: var(--heading-blue);
+            border: none;
+            padding: 0.875rem 2rem;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-family: 'Instrument Sans', sans-serif;
+        }
+
+        .copy-poem-btn:hover,
+        .new-poem-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .new-poem-btn {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .new-poem-btn:hover {
+            background: white;
+            color: var(--heading-blue);
+        }
+
+        .chat-input-area {
+            padding: 1.5rem 2rem;
+            background: var(--white);
+            border-top: 1px solid #E5E7EB;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid #E5E7EB;
+            border-radius: 50px;
+            font-size: 18px;
+            font-family: 'Instrument Sans', sans-serif;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .chat-input:focus {
+            border-color: var(--button-blue);
+        }
+
+        .send-button {
+            padding: 1rem 2rem;
+            background: var(--button-blue);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 18px;
+        }
+
+        .send-button:hover {
+            background: var(--button-blue-hover);
+            transform: translateY(-2px);
+        }
+
+        .send-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Chat Start Screen */
+        .chat-start-screen {
+            padding: 3rem 2rem;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--white);
+            flex: 1;
+        }
+
+        .start-content {
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .start-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .start-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .start-content h3 {
+            color: var(--heading-blue);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .start-content p {
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .start-chat-button {
+            padding: 1rem 2.5rem;
+            background: var(--button-blue);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Instrument Sans', sans-serif;
+            box-shadow: 0 4px 15px rgba(60, 102, 250, 0.3);
+        }
+
+        .start-chat-button:hover {
+            background: var(--button-blue-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(60, 102, 250, 0.4);
+        }
+
+        /* Chat Loading */
+        .chat-loading {
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--white);
+        }
+
+        .loading-dots {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .loading-dots span {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--button-blue);
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .loading-dots span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .loading-dots span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        /* Examples Section */
+        .examples {
+            margin-bottom: 4rem;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .example-card {
+            background: var(--white);
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+
+        .example-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .example-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .example-content {
+            padding: 1.5rem;
+        }
+
+        .example-content h3 {
+            color: var(--heading-blue);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .example-content p {
+            color: var(--text-gray);
+            font-style: italic;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--heading-blue);
+            color: var(--white);
+            padding: 3rem 5%;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--white);
+            font-weight: 700;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--white);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--button-blue);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 2rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-content {
+                text-align: center;
+            }
+
+            .hero-text {
+                max-width: 100%;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .steps,
+            .examples-grid,
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chatbot-container {
+                grid-template-columns: 1fr;
+            }
+
+            .chatbot-section,
+            .tips-section {
+                padding: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 575px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Info Bar -->
+    <div class="info-bar">
+        🎉 Speciaal voor Sinterklaas 2025! Maak nu gratis je eigen AI Sinterklaasgedicht
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="https://cdn1.site-media.eu/images/0/16571142/1-RHSAiszMk8WS9sTiQQfveA.png" alt="PromptGorillas Logo">
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#hoe-werkt-het">Hoe werkt het</a></li>
+                <li><a href="#voorbeelden">Voorbeelden</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Schrijf je eigen <span class="highlight">Sinterklaas gedicht</span> met AI</h1>
+                <p>Maak het feest compleet met een uniek en persoonlijk gedicht, gegenereerd door onze slimme AI chatbot. Snel, leuk en origineel!</p>
+                <a href="#chatbot" class="cta-button">Start Nu →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- How it Works Section -->
+        <section class="how-it-works" id="hoe-werkt-het">
+            <h2 class="section-title">Hoe werkt het?</h2>
+            <p class="section-subtitle">In slechts 3 eenvoudige stappen naar een uniek Sinterklaasgedicht! 🎁</p>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Vertel over de persoon</h3>
+                    <p>Geef informatie over de persoon voor wie je het gedicht schrijft. Hobby's, eigenschappen, grappige momenten!</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Onze AI werkt haar magie</h3>
+                    <p>De chatbot gebruikt deze informatie om een uniek, rijmend Sinterklaasgedicht te creëren.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Pas aan en deel</h3>
+                    <p>Je kunt het gedicht verfijnen, kopiëren en direct gebruiken bij het cadeau!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chatbot Section -->
+        <section class="chatbot-section" id="chatbot">
+            <h2 class="section-title">Maak je gedicht</h2>
+            <div class="chatbot-container">
+                <div class="chatbot-mascot">
+                    <img src="https://my.nomadsoffice.nl/images/0/20583325/SinterklaasGedichtGenerator-PromptGorillas-pRf3narfhykv3faWOe9IWw.png" alt="Sinterklaas Gorilla Mascotte">
+                </div>
+                <div class="chat-interface">
+                    <div class="chat-header">
+                        Sinterklaas Gedichten Generator
+                    </div>
+                    
+                    <!-- Start Screen -->
+                    <div class="chat-start-screen" id="chatStartScreen">
+                        <div class="start-content">
+                            <div class="start-icon">
+                                <img src="https://my.nomadsoffice.nl/images/0/20583442/SinterklaasGedichtGenerator-PromptGorillas2-K10V0pqhbwOCPwWSJCIqAw.png" alt="Sinterklaas">
+                            </div>
+                            <h3>Welkom bij de Sinterklaas Gedichten Generator!</h3>
+                            <p>Klik op de knop hieronder om een nieuwe chat sessie te starten en je persoonlijke Sinterklaasgedicht te laten maken.</p>
+                            <button class="start-chat-button" id="startChatBtn">Start Chat Sessie</button>
+                        </div>
+                    </div>
+
+                    <!-- Chat Messages -->
+                    <div class="chat-messages" id="chatMessages" style="display: none;">
+                        <!-- Messages will be added here dynamically -->
+                    </div>
+
+                    <!-- Chat Input -->
+                    <div class="chat-input-area" id="chatInputArea" style="display: none;">
+                        <input type="text" class="chat-input" id="chatInput" placeholder="Vertel over de persoon en het cadeau...">
+                        <button class="send-button" id="sendBtn">Verstuur</button>
+                    </div>
+
+                    <!-- Loading Indicator -->
+                    <div class="chat-loading" id="chatLoading" style="display: none;">
+                        <div class="loading-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Examples Section -->
+        <section class="examples" id="voorbeelden">
+            <h2 class="section-title">Voorbeelden van AI-gegenereerde gedichten</h2>
+            <p class="section-subtitle">Ontdek wat onze AI voor jou kan maken! 📝✨</p>
+            <div class="examples-grid">
+                <div class="example-card">
+                    <img src="images/example-1.jpg" alt="Surprise voorbeeld" class="example-image" onerror="this.src='https://via.placeholder.com/400x200/d7e3fc/112c69?text=Gorilla+met+Mijter'">
+                    <div class="example-content">
+                        <h3>Voor de sportieveling</h3>
+                        <p>"Lieve Jan, die altijd rent en fietst,<br>
+                        En nooit een training mist, zelfs als het vriest...<br>
+                        Dit cadeau past bij jouw stijl,<br>
+                        Hopelijk geniet je ervan een hele tijd!"</p>
+                    </div>
+                </div>
+                <div class="example-card">
+                    <img src="images/example-2.jpg" alt="Cadeau voorbeeld" class="example-image" onerror="this.src='https://via.placeholder.com/400x200/3c66fa/FFFFFF?text=Gorilla+Surprise'">
+                    <div class="example-content">
+                        <h3>Voor de koffieliefhebber</h3>
+                        <p>"Sinterklaas zag jou elke dag,<br>
+                        Met koffie in de hand, wat een lekker slag!<br>
+                        Daarom ligt hier iets lekkers voor jou,<br>
+                        Voor nog meer koffie-genot, hou!"</p>
+                    </div>
+                </div>
+                <div class="example-card">
+                    <img src="images/example-3.jpg" alt="Gedicht voorbeeld" class="example-image" onerror="this.src='https://via.placeholder.com/400x200/d7e3fc/112c69?text=Gorilla+Cadeau'">
+                    <div class="example-content">
+                        <h3>Voor de boekenwurm</h3>
+                        <p>"Marie leest elke avond in bed,<br>
+                        Van spanning tot romantiek, alles is gemet!<br>
+                        Sinterklaas vond daarom dit voor jou,<br>
+                        Een nieuw boek om van te genieten, wauw!"</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tips Section -->
+        <section class="tips-section">
+            <h2 class="section-title">Tips voor het perfecte gedicht</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-icon">🎯</div>
+                    <h4>Wees specifiek</h4>
+                    <p>Hoe meer details je geeft over de persoon, hoe persoonlijker en leuker het gedicht wordt!</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon">😄</div>
+                    <h4>Humor is key</h4>
+                    <p>Vertel grappige anekdotes of gekke gewoontes - daar kan de AI de leukste rijmen van maken.</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon">🎁</div>
+                    <h4>Hint naar het cadeau</h4>
+                    <p>Geef een subtiele hint over het cadeau en laat de AI daar een mooie verwijzing naar maken.</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon">✨</div>
+                    <h4>Pas aan naar wens</h4>
+                    <p>Het gegenereerde gedicht is een basis - je kunt het altijd nog persoonlijker maken!</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>PromptGorillas</h3>
+                <p>AI toegankelijk maken door middel van trainingen, consultancy en automations.</p>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/company/promptgorillas" target="_blank" title="LinkedIn">in</a>
+                    <a href="#" title="Twitter">𝕏</a>
+                    <a href="#" title="Facebook">f</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Links</h3>
+                <a href="https://www.promptgorillas.com" target="_blank">Hoofdwebsite</a>
+                <a href="https://www.promptgorillas.com/over-ons" target="_blank">Over Ons</a>
+                <a href="https://www.promptgorillas.com/alle-masterclasses-voor-bedrijven" target="_blank">AI Trainingen</a>
+                <a href="https://www.promptgorillas.com/contact" target="_blank">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>📧 hello@promptgorillas.com</p>
+                <p>📞 010 261 3564</p>
+                <p>📍 Blaak 34, Rotterdam</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 PromptGorillas. Alle rechten voorbehouden.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Configuration - Backend URLs (can be overridden by environment)
+        const CONFIG = {
+            // Backend API base URL - defaults to localhost for development
+            // Set window.BACKEND_URL before page load to override
+            BACKEND_URL: window.BACKEND_URL || 'http://localhost:3000',
+            // n8n webhook URL - defaults to dev environment
+            // Set window.WEBHOOK_URL before page load to override
+            WEBHOOK_URL: window.WEBHOOK_URL || 'https://dev.promptgorillas.com/webhook/receive_message'
+        };
+
+        // Chat functionality
+        let sessionId = null;
+        let poemEventSource = null; // SSE connection
+
+        // DOM elements
+        const startChatBtn = document.getElementById('startChatBtn');
+        const chatStartScreen = document.getElementById('chatStartScreen');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInputArea = document.getElementById('chatInputArea');
+        const chatLoading = document.getElementById('chatLoading');
+        const chatInput = document.getElementById('chatInput');
+        const sendBtn = document.getElementById('sendBtn');
+
+        // Generate unique session ID
+        function generateSessionId() {
+            return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        // Add message to chat
+        function addMessage(content, isUser = false, includeStyleButtons = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = isUser ? 'message user' : 'message';
+            
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'message-avatar';
+            const avatarImg = document.createElement('img');
+            if (isUser) {
+                // User avatar - kan eventueel een andere afbeelding zijn
+                avatarImg.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23112c69"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>';
+            } else {
+                // Bot avatar - Sinterklaas afbeelding
+                avatarImg.src = 'https://my.nomadsoffice.nl/images/0/20583442/SinterklaasGedichtGenerator-PromptGorillas2-K10V0pqhbwOCPwWSJCIqAw.png';
+            }
+            avatarImg.alt = isUser ? 'Gebruiker' : 'Sinterklaas';
+            avatarDiv.appendChild(avatarImg);
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            
+            const p = document.createElement('p');
+            p.innerHTML = content.replace(/\n/g, '<br>');
+            contentDiv.appendChild(p);
+            
+            // Add style choice buttons if requested
+            if (includeStyleButtons) {
+                const styleChoices = document.createElement('div');
+                styleChoices.className = 'style-choices';
+                
+                const styles = [
+                    { emoji: '🤗', name: 'Lief en warm', desc: 'Oprecht en hartelijk', value: '1. Lief en warm' },
+                    { emoji: '😄', name: 'Grappig en luchtig', desc: 'Vrolijk en humoristisch', value: '2. Grappig en luchtig' },
+                    { emoji: '😏', name: 'Plagerig/licht gemeen', desc: 'Plagend met een knipoog', value: '3. Plagerig/licht gemeen' },
+                    { emoji: '🎩', name: 'Formeel en traditioneel', desc: 'Klassiek en poëtisch', value: '4. Formeel en traditioneel' }
+                ];
+                
+                styles.forEach(style => {
+                    const button = document.createElement('button');
+                    button.className = 'style-button';
+                    button.innerHTML = `${style.emoji} <strong>${style.name}</strong><span>${style.desc}</span>`;
+                    button.onclick = () => handleStyleChoice(style.value);
+                    styleChoices.appendChild(button);
+                });
+                
+                contentDiv.appendChild(styleChoices);
+            }
+            
+            messageDiv.appendChild(avatarDiv);
+            messageDiv.appendChild(contentDiv);
+            chatMessages.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Show/hide loading indicator
+        function setLoading(isLoading) {
+            if (isLoading) {
+                chatLoading.style.display = 'flex';
+                sendBtn.disabled = true;
+                chatInput.disabled = true;
+            } else {
+                chatLoading.style.display = 'none';
+                sendBtn.disabled = false;
+                chatInput.disabled = false;
+            }
+        }
+
+        // Show poem generating loading state
+        function showPoemGenerating() {
+            // Check if already showing
+            if (document.getElementById('poemGenerating')) {
+                return;
+            }
+
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = 'poemGenerating';
+            loadingDiv.className = 'poem-generating';
+            loadingDiv.innerHTML = `
+                <div class="poem-loading-content">
+                    <div class="poem-spinner"></div>
+                    <h3>Je gedicht wordt geschreven...</h3>
+                    <p>Rijmpiet is hard aan het werk! 📝</p>
+                </div>
+            `;
+            chatMessages.appendChild(loadingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Disable input while generating
+            chatInput.disabled = true;
+            sendBtn.disabled = true;
+        }
+
+        // Start SSE connection for real-time poem status updates
+        function startPoemSSE() {
+            // Close existing connection if any
+            if (poemEventSource) {
+                poemEventSource.close();
+            }
+
+            if (!sessionId) {
+                console.error('Cannot start SSE: no session ID');
+                return;
+            }
+
+            // Create SSE connection
+            const sseUrl = `${CONFIG.BACKEND_URL}/stream/${sessionId}`;
+            console.log('Connecting to SSE:', sseUrl);
+            
+            poemEventSource = new EventSource(sseUrl);
+
+            // Handle connection open
+            poemEventSource.onopen = function() {
+                console.log('SSE connection opened');
+            };
+
+            // Handle incoming messages
+            poemEventSource.onmessage = function(event) {
+                try {
+                    const data = JSON.parse(event.data);
+                    console.log('SSE message received:', data);
+
+                    // Handle different statuses
+                    if (data.status === 'generating') {
+                        showPoemGenerating();
+                    } else if (data.status === 'completed' && data.poem) {
+                        // Remove loading state if shown
+                        const loadingDiv = document.getElementById('poemGenerating');
+                        if (loadingDiv) {
+                            loadingDiv.remove();
+                        }
+                        
+                        // Display the poem
+                        displayPoem(data.poem);
+                        
+                        // Close SSE connection
+                        poemEventSource.close();
+                        poemEventSource = null;
+                    }
+                } catch (error) {
+                    console.error('Error parsing SSE message:', error);
+                }
+            };
+
+            // Handle errors
+            poemEventSource.onerror = function(error) {
+                console.error('SSE connection error:', error);
+                // Connection will auto-reconnect, but we can also handle it manually
+            };
+        }
+
+        // Stop SSE connection
+        function stopPoemSSE() {
+            if (poemEventSource) {
+                poemEventSource.close();
+                poemEventSource = null;
+            }
+        }
+
+        // Display the final poem
+        function displayPoem(poem) {
+            const poemDiv = document.createElement('div');
+            poemDiv.className = 'final-poem';
+            poemDiv.innerHTML = `
+                <div class="poem-content">
+                    <h3>✨ Jouw Sinterklaasgedicht ✨</h3>
+                    <div class="poem-text">${poem.replace(/\n/g, '<br>')}</div>
+                    <div class="poem-actions">
+                        <button onclick="copyPoem()" class="copy-poem-btn">Kopieer Gedicht</button>
+                        <button onclick="startNewPoem()" class="new-poem-btn">Nieuw Gedicht Maken</button>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(poemDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Copy poem to clipboard
+        function copyPoem() {
+            const poemText = document.querySelector('.poem-text').innerText;
+            navigator.clipboard.writeText(poemText).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✓ Gekopieerd!';
+                btn.style.background = 'var(--element-blue)';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'white';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Kon gedicht niet kopiëren. Selecteer de tekst handmatig.');
+            });
+        }
+
+        // Start new poem session
+        function startNewPoem() {
+            location.reload();
+        }
+
+        // Handle style choice button click
+        function handleStyleChoice(styleValue) {
+            // Add user's choice to chat
+            addMessage(styleValue, true);
+            
+            // Send to webhook
+            sendMessage(styleValue);
+        }
+
+        // Send message to webhook
+        async function sendMessage(message) {
+            try {
+                setLoading(true);
+                
+                const response = await fetch(CONFIG.WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        session_id: sessionId
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Webhook response was not ok');
+                }
+
+                const data = await response.json();
+                
+                console.log('Received data:', data); // Debug log
+                
+                // Add bot response to chat
+                if (data.response) {
+                    addMessage(data.response, false);
+                }
+                
+                // Update session ID if provided
+                if (data.session_id) {
+                    sessionId = data.session_id;
+                }
+                
+                // Note: Polling handles status checking every 7 seconds
+                
+            } catch (error) {
+                console.error('Error sending message:', error);
+                addMessage('Sorry, er ging iets mis. Probeer het opnieuw!', false);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        // Start chat session
+        startChatBtn.addEventListener('click', function() {
+            // Generate session ID
+            sessionId = generateSessionId();
+            console.log('Chat started with session ID:', sessionId);
+            
+            // Hide start screen, show chat
+            chatStartScreen.style.display = 'none';
+            chatMessages.style.display = 'block';
+            chatInputArea.style.display = 'flex';
+            
+            // Add welcome message with style choices
+            const welcomeMessage = '<strong>Ho ho ho! Welkom bij Rijmpiet!</strong><br><br>' +
+                'Ik help je graag met een origineel Sinterklaasgedicht. Welke stijl past het beste bij de ontvanger?';
+            
+            addMessage(welcomeMessage, false, true);
+            
+            // Start SSE connection for real-time poem status updates
+            startPoemSSE();
+            
+            // Focus on input
+            chatInput.focus();
+        });
+
+        // Send button click
+        sendBtn.addEventListener('click', function() {
+            const message = chatInput.value.trim();
+            if (message && sessionId) {
+                // Add user message to chat
+                addMessage(message, true);
+                
+                // Clear input
+                chatInput.value = '';
+                
+                // Send to webhook
+                sendMessage(message);
+            }
+        });
+
+        // Enter key to send
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
+
