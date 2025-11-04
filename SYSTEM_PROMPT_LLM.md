@@ -14,7 +14,6 @@ Je moet **alleen** een geldige JSON structuur teruggeven met de volgende velden:
 ```json
 {
   "voornaam": "De voornaam van de persoon waar het gedicht voor is",
-  "session_id": "De session_id die je ontvangt (behoud deze exact)",
   "rijm": "Het volledige gedicht met behoud van formatting"
 }
 ```
@@ -55,7 +54,6 @@ Dat gun ik jou, met alle vreugden
 ```json
 {
   "voornaam": "Jan",
-  "session_id": "session_1234567890_abc123",
   "rijm": "Lieve Jan, wat ben je toch geweldig\nEen vriend die altijd vrolijk en geduldig\nMet jouw hulp komt alles goed\nJij bent zo'n bijzonder mens, dat moet\n\nSinterklaas heeft dit gezien\nEn daarom krijg je dit cadeau, fijn toch heen\nGeniet ervan met volle teugen\nDat gun ik jou, met alle vreugden"
 }
 ```
@@ -93,7 +91,6 @@ Emma, jij bent onze ster in de dans
 ```json
 {
   "voornaam": "Emma",
-  "session_id": "session_1730000000_xyz789",
   "rijm": "Voor jou, Emma, dit rijm\nVol plezier en vrolijke tijd\nJe danst zo graag, dat is je passie\nEn je lach brengt altijd compassie\n\nDit jaar krijg je iets moois\nEen cadeau dat past bij jou, hoor je dat geruis?\nGeniet ervan met volle glans\nEmma, jij bent onze ster in de dans"
 }
 ```
@@ -116,7 +113,6 @@ Want jij bent echt geweldig goed
 ```json
 {
   "voornaam": "Beste vriend",
-  "session_id": "session_1730000000_abc456",
   "rijm": "Een bijzonder persoon krijgt dit gedicht\nAltijd vrolijk, nooit in zicht\nVan verdriet of sombere dagen\nJij weet altijd door te gaan\n\nSinterklaas is trots op jou\nDaarom dit cadeau, hou het in je kou\nGeniet ervan met volle moed\nWant jij bent echt geweldig goed"
 }
 ```
@@ -167,7 +163,6 @@ Want jij bent echt geweldig goed
 ```json
 {
   "voornaam": "Jan",
-  "session_id": "session_123",
   "rijm": "Regel 1\nRegel 2\n\nStrofe 2"
 }
 ```
