@@ -86,6 +86,39 @@ const CONFIG = {
 }
 ```
 
+### Flow 3: Word Document Generator Flow
+
+**Stap 1: Webhook**
+- Ontvangt `session_id` en `poem` van frontend
+
+**Stap 2: LLM Node**
+- Converteer gedicht naar JSON structuur met velden:
+  - `voornaam`: Voornaam van de ontvanger
+  - `session_id`: Session ID
+  - `rijm`: Het gedicht met behoud van formatting (witregels en enters)
+
+**Stap 3: HTTP Request - Generate Word**
+- URL: `POST https://your-backend-url.com/generate-word`
+- Body:
+```json
+{
+  "voornaam": "{{ $json.voornaam }}",
+  "session_id": "{{ $json.session_id }}",
+  "rijm": "{{ $json.rijm }}"
+}
+```
+
+**Stap 4: Respond to Webhook**
+- Stuur het Word bestand terug naar de frontend
+- Option 1: Direct file response (set Content-Type header)
+- Option 2: Base64 encoded in JSON:
+```json
+{
+  "file_data": "base64_encoded_file_content",
+  "file_name": "sinterklaas_gedicht_{session_id}.docx"
+}
+```
+
 ## API Endpoints
 
 ### SSE Stream
@@ -103,6 +136,17 @@ Body: { "session_id": "..." }
 ```
 POST /status/completed
 Body: { "session_id": "...", "poem": "..." }
+```
+
+### Word Document Generation
+```
+POST /generate-word
+Body: { 
+  "voornaam": "...",
+  "session_id": "...",
+  "rijm": "..." 
+}
+Response: Word document (.docx file)
 ```
 
 ### Health Check

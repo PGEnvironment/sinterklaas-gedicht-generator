@@ -1,5 +1,9 @@
 const express = require('express');
 const cors = require('cors');
+const Docxtemplater = require('docxtemplater');
+const PizZip = require('pizzip');
+const fs = require('fs');
+const path = require('path');
 const app = express();
 
 // Middleware
@@ -101,6 +105,72 @@ app.post('/status/completed', (req, res) => {
     }
     
     res.json({ success: true, message: 'Poem completed and sent' });
+});
+
+// POST endpoint - Generate Word document from template
+app.post('/generate-word', (req, res) => {
+    try {
+        const { voornaam, session_id, rijm } = req.body;
+        
+        if (!voornaam || !session_id || !rijm) {
+            return res.status(400).json({ 
+                error: 'voornaam, session_id, and rijm are required' 
+            });
+        }
+        
+        // Path to template
+        const templatePath = path.join(__dirname, 'template_gedicht_sinterklaas.docx');
+        
+        // Check if template exists
+        if (!fs.existsSync(templatePath)) {
+            return res.status(500).json({ 
+                error: 'Template file not found' 
+            });
+        }
+        
+        // Read template
+        const content = fs.readFileSync(templatePath, 'binary');
+        const zip = new PizZip(content);
+        
+        // Create docxtemplater instance
+        const doc = new Docxtemplater(zip, {
+            paragraphLoop: true,
+            linebreaks: true, // Preserve line breaks
+        });
+        
+        // Format rijm for Word - preserve line breaks
+        // docxtemplater with linebreaks: true will convert \n to Word line breaks
+        // Multiple \n become multiple line breaks
+        // Replace multiple spaces with single space (but keep line breaks)
+        const formattedRijm = rijm
+            .replace(/[ \t]+/g, ' ') // Multiple spaces/tabs to single space
+            .replace(/\n{3,}/g, '\n\n') // Max 2 line breaks in a row
+            .trim();
+        
+        // Render template with data
+        doc.render({
+            voornaam: voornaam,
+            rijm: formattedRijm
+        });
+        
+        // Generate buffer
+        const buffer = doc.getZip().generate({
+            type: 'nodebuffer',
+            compression: 'DEFLATE',
+        });
+        
+        // Set headers and send file
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        res.setHeader('Content-Disposition', `attachment; filename="sinterklaas_gedicht_${session_id}.docx"`);
+        res.send(buffer);
+        
+    } catch (error) {
+        console.error('Error generating Word document:', error);
+        res.status(500).json({ 
+            error: 'Failed to generate Word document',
+            details: error.message 
+        });
+    }
 });
 
 // Health check endpoint

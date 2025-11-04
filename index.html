@@ -504,6 +504,7 @@
         }
 
         .copy-poem-btn,
+        .download-word-btn,
         .new-poem-btn {
             background: white;
             color: var(--heading-blue);
@@ -518,9 +519,16 @@
         }
 
         .copy-poem-btn:hover,
+        .download-word-btn:hover,
         .new-poem-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .download-word-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .new-poem-btn {
@@ -1069,7 +1077,9 @@
             BACKEND_URL: window.BACKEND_URL || 'http://localhost:3000',
             // n8n webhook URL - defaults to dev environment
             // Set window.WEBHOOK_URL before page load to override
-            WEBHOOK_URL: window.WEBHOOK_URL || 'https://dev.promptgorillas.com/webhook/receive_message'
+            WEBHOOK_URL: window.WEBHOOK_URL || 'https://dev.promptgorillas.com/webhook/receive_message',
+            // n8n styling webhook URL for Word generation
+            STYLING_WEBHOOK_URL: window.STYLING_WEBHOOK_URL || 'https://dev.promptgorillas.com/webhook/styling-gedicht'
         };
 
         // Chat functionality
@@ -1260,6 +1270,7 @@
                     <div class="poem-text">${poem.replace(/\n/g, '<br>')}</div>
                     <div class="poem-actions">
                         <button onclick="copyPoem()" class="copy-poem-btn">Kopieer Gedicht</button>
+                        <button onclick="downloadWord()" class="download-word-btn">Download als Word</button>
                         <button onclick="startNewPoem()" class="new-poem-btn">Nieuw Gedicht Maken</button>
                     </div>
                 </div>
@@ -1284,6 +1295,95 @@
                 console.error('Failed to copy:', err);
                 alert('Kon gedicht niet kopiëren. Selecteer de tekst handmatig.');
             });
+        }
+
+        // Download poem as Word document
+        async function downloadWord() {
+            const poemText = document.querySelector('.poem-text').innerText;
+            const btn = event.target;
+            const originalText = btn.textContent;
+            
+            // Show loading state
+            btn.disabled = true;
+            btn.textContent = 'Word wordt gegenereerd...';
+            
+            try {
+                // Send to n8n webhook
+                const response = await fetch(CONFIG.STYLING_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        session_id: sessionId,
+                        poem: poemText
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Webhook response was not ok');
+                }
+
+                // Check if response is a file (blob) or JSON with file data
+                const contentType = response.headers.get('content-type');
+                
+                if (contentType && contentType.includes('application/vnd.openxmlformats')) {
+                    // Direct file response
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `sinterklaas_gedicht_${sessionId}.docx`;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                    
+                    btn.textContent = '✓ Gedownload!';
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                        btn.disabled = false;
+                    }, 2000);
+                } else {
+                    // JSON response with file data (base64)
+                    const data = await response.json();
+                    
+                    if (data.file_data) {
+                        // Convert base64 to blob
+                        const byteCharacters = atob(data.file_data);
+                        const byteNumbers = new Array(byteCharacters.length);
+                        for (let i = 0; i < byteCharacters.length; i++) {
+                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                        }
+                        const byteArray = new Uint8Array(byteNumbers);
+                        const blob = new Blob([byteArray], { 
+                            type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' 
+                        });
+                        
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = data.file_name || `sinterklaas_gedicht_${sessionId}.docx`;
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        document.body.removeChild(a);
+                        
+                        btn.textContent = '✓ Gedownload!';
+                        setTimeout(() => {
+                            btn.textContent = originalText;
+                            btn.disabled = false;
+                        }, 2000);
+                    } else {
+                        throw new Error('No file data in response');
+                    }
+                }
+            } catch (error) {
+                console.error('Error downloading Word:', error);
+                alert('Kon Word bestand niet genereren. Probeer het opnieuw.');
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
         }
 
         // Start new poem session
