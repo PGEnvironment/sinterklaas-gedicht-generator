@@ -309,6 +309,11 @@
             max-width: 100%;
             height: auto;
             object-fit: contain;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        .chatbot-mascot img.fade-out {
+            opacity: 0;
         }
 
         .chat-interface {
@@ -909,7 +914,7 @@
             <h2 class="section-title">Maak je gedicht</h2>
             <div class="chatbot-container">
                 <div class="chatbot-mascot">
-                    <img src="https://my.nomadsoffice.nl/images/0/20583325/SinterklaasGedichtGenerator-PromptGorillas-pRf3narfhykv3faWOe9IWw.png" alt="Sinterklaas Gorilla Mascotte">
+                    <img id="mascotImage" src="https://my.nomadsoffice.nl/images/0/20583325/SinterklaasGedichtGenerator-PromptGorillas-pRf3narfhykv3faWOe9IWw.png" alt="Sinterklaas Gorilla Mascotte">
                 </div>
                 <div class="chat-interface">
                     <div class="chat-header">
@@ -1277,6 +1282,22 @@
             `;
             chatMessages.appendChild(poemDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Replace mascot image with happy version when poem is complete
+            const mascotImage = document.getElementById('mascotImage');
+            if (mascotImage) {
+                // Fade out
+                mascotImage.classList.add('fade-out');
+                
+                // Change image after fade out
+                setTimeout(() => {
+                    mascotImage.src = 'https://my.nomadsoffice.nl/images/0/20583323/SinterklaasGedichtGenerator-PromptGorillas1-wR2AvAa9Ooq5b-IIb2jmfQ.png';
+                    mascotImage.alt = 'Blije Sinterklaas Gorilla';
+                    
+                    // Fade in
+                    mascotImage.classList.remove('fade-out');
+                }, 500); // Match CSS transition duration
+            }
         }
 
         // Copy poem to clipboard
