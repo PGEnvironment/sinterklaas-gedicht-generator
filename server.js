@@ -135,16 +135,14 @@ app.post('/generate-word', (req, res) => {
         // Create docxtemplater instance
         const doc = new Docxtemplater(zip, {
             paragraphLoop: true,
-            linebreaks: true, // Preserve line breaks
+            linebreaks: true, // Enable linebreaks
         });
         
         // Format rijm for Word - preserve line breaks
-        // docxtemplater with linebreaks: true will convert \n to Word line breaks
-        // Multiple \n become multiple line breaks
-        // Replace multiple spaces with single space (but keep line breaks)
+        // Clean up extra spaces but keep line structure
         const formattedRijm = rijm
             .replace(/[ \t]+/g, ' ') // Multiple spaces/tabs to single space
-            .replace(/\n{3,}/g, '\n\n') // Max 2 line breaks in a row
+            .replace(/\n{3,}/g, '\n\n') // Max 2 consecutive line breaks
             .trim();
         
         // Render template with data
@@ -166,9 +164,16 @@ app.post('/generate-word', (req, res) => {
         
     } catch (error) {
         console.error('Error generating Word document:', error);
+        
+        // Detailed error logging for docxtemplater
+        if (error.properties && error.properties.errors) {
+            console.error('Docxtemplater errors:', JSON.stringify(error.properties.errors, null, 2));
+        }
+        
         res.status(500).json({ 
             error: 'Failed to generate Word document',
-            details: error.message 
+            details: error.message,
+            docx_errors: error.properties && error.properties.errors ? error.properties.errors : null
         });
     }
 });
