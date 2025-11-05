@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sinterklaas Gedicht Generator - PromptGorillas</title>
-    <link rel="icon" type="image/png" href="https://my.nomadsoffice.nl/images/0/20601772/SinterklaasGedichtGenerator-PromptGorillas3-u_qTKbVrqypLqlbzP76Z7w.png">
+    <!-- Favicon for various browsers and devices -->
+    <link rel="icon" type="image/png" sizes="32x32" href="https://my.nomadsoffice.nl/images/0/20601772/SinterklaasGedichtGenerator-PromptGorillas3-u_qTKbVrqypLqlbzP76Z7w.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://my.nomadsoffice.nl/images/0/20601772/SinterklaasGedichtGenerator-PromptGorillas3-u_qTKbVrqypLqlbzP76Z7w.png">
+    <link rel="shortcut icon" href="https://my.nomadsoffice.nl/images/0/20601772/SinterklaasGedichtGenerator-PromptGorillas3-u_qTKbVrqypLqlbzP76Z7w.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://my.nomadsoffice.nl/images/0/20601772/SinterklaasGedichtGenerator-PromptGorillas3-u_qTKbVrqypLqlbzP76Z7w.png">
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -1294,6 +1298,49 @@
         // Set backend URL for production (can be overridden via window.BACKEND_URL)
         window.BACKEND_URL = window.BACKEND_URL || 'https://sinterklaas-poem-backend.onrender.com';
         window.WEBHOOK_URL = window.WEBHOOK_URL || 'https://dev.promptgorillas.com/webhook/receive_message';
+        
+        // Force favicon refresh (cache busting)
+        (function() {
+            const faviconUrl = 'https://my.nomadsoffice.nl/images/0/20601772/SinterklaasGedichtGenerator-PromptGorillas3-u_qTKbVrqypLqlbzP76Z7w.png';
+            const timestamp = new Date().getTime();
+            const faviconUrlWithCache = faviconUrl + '?v=' + timestamp;
+            
+            // Remove existing favicons
+            const existingFavicons = document.querySelectorAll('link[rel*="icon"]');
+            existingFavicons.forEach(link => link.remove());
+            
+            // Create new favicon links
+            const link32 = document.createElement('link');
+            link32.rel = 'icon';
+            link32.type = 'image/png';
+            link32.sizes = '32x32';
+            link32.href = faviconUrlWithCache;
+            document.head.appendChild(link32);
+            
+            const link16 = document.createElement('link');
+            link16.rel = 'icon';
+            link16.type = 'image/png';
+            link16.sizes = '16x16';
+            link16.href = faviconUrlWithCache;
+            document.head.appendChild(link16);
+            
+            const shortcutIcon = document.createElement('link');
+            shortcutIcon.rel = 'shortcut icon';
+            shortcutIcon.href = faviconUrlWithCache;
+            document.head.appendChild(shortcutIcon);
+            
+            // Test if favicon loads, if not try direct approach
+            const testImg = new Image();
+            testImg.onerror = function() {
+                console.warn('Favicon failed to load, trying alternative method');
+                // Fallback: try to set favicon directly
+                const fallbackLink = document.createElement('link');
+                fallbackLink.rel = 'icon';
+                fallbackLink.href = faviconUrl;
+                document.head.appendChild(fallbackLink);
+            };
+            testImg.src = faviconUrl;
+        })();
     </script>
 
     <script>
