@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sinterklaas Gedicht Generator - PromptGorillas</title>
-    <!-- Favicon for various browsers and devices -->
-    <link rel="icon" type="image/png" sizes="32x32" href="https://my.nomadsoffice.nl/images/0/20601772/SinterklaasGedichtGenerator-PromptGorillas3-u_qTKbVrqypLqlbzP76Z7w.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://my.nomadsoffice.nl/images/0/20601772/SinterklaasGedichtGenerator-PromptGorillas3-u_qTKbVrqypLqlbzP76Z7w.png">
-    <link rel="shortcut icon" href="https://my.nomadsoffice.nl/images/0/20601772/SinterklaasGedichtGenerator-PromptGorillas3-u_qTKbVrqypLqlbzP76Z7w.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://my.nomadsoffice.nl/images/0/20601772/SinterklaasGedichtGenerator-PromptGorillas3-u_qTKbVrqypLqlbzP76Z7w.png">
+    <!-- Favicon - will be set dynamically via JavaScript -->
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -1299,46 +1295,100 @@
         window.BACKEND_URL = window.BACKEND_URL || 'https://sinterklaas-poem-backend.onrender.com';
         window.WEBHOOK_URL = window.WEBHOOK_URL || 'https://dev.promptgorillas.com/webhook/receive_message';
         
-        // Force favicon refresh (cache busting)
+        // Set favicon dynamically with multiple fallback methods
         (function() {
             const faviconUrl = 'https://my.nomadsoffice.nl/images/0/20601772/SinterklaasGedichtGenerator-PromptGorillas3-u_qTKbVrqypLqlbzP76Z7w.png';
+            
+            function setFavicon(url) {
+                // Remove all existing favicons
+                const existingFavicons = document.querySelectorAll('link[rel*="icon"], link[rel*="shortcut"]');
+                existingFavicons.forEach(link => link.remove());
+                
+                // Create new favicon link
+                const link = document.createElement('link');
+                link.rel = 'icon';
+                link.type = 'image/png';
+                link.href = url;
+                document.head.appendChild(link);
+                
+                // Also add shortcut icon for older browsers
+                const shortcut = document.createElement('link');
+                shortcut.rel = 'shortcut icon';
+                shortcut.href = url;
+                document.head.appendChild(shortcut);
+                
+                // Set apple touch icon
+                const apple = document.createElement('link');
+                apple.rel = 'apple-touch-icon';
+                apple.href = url;
+                document.head.appendChild(apple);
+            }
+            
+            // Method 1: Try with cache busting
             const timestamp = new Date().getTime();
-            const faviconUrlWithCache = faviconUrl + '?v=' + timestamp;
+            const faviconWithCache = faviconUrl + '?v=' + timestamp + '&t=' + Date.now();
+            setFavicon(faviconWithCache);
             
-            // Remove existing favicons
-            const existingFavicons = document.querySelectorAll('link[rel*="icon"]');
-            existingFavicons.forEach(link => link.remove());
-            
-            // Create new favicon links
-            const link32 = document.createElement('link');
-            link32.rel = 'icon';
-            link32.type = 'image/png';
-            link32.sizes = '32x32';
-            link32.href = faviconUrlWithCache;
-            document.head.appendChild(link32);
-            
-            const link16 = document.createElement('link');
-            link16.rel = 'icon';
-            link16.type = 'image/png';
-            link16.sizes = '16x16';
-            link16.href = faviconUrlWithCache;
-            document.head.appendChild(link16);
-            
-            const shortcutIcon = document.createElement('link');
-            shortcutIcon.rel = 'shortcut icon';
-            shortcutIcon.href = faviconUrlWithCache;
-            document.head.appendChild(shortcutIcon);
-            
-            // Test if favicon loads, if not try direct approach
+            // Method 2: Test if image loads, if not create canvas favicon
             const testImg = new Image();
-            testImg.onerror = function() {
-                console.warn('Favicon failed to load, trying alternative method');
-                // Fallback: try to set favicon directly
-                const fallbackLink = document.createElement('link');
-                fallbackLink.rel = 'icon';
-                fallbackLink.href = faviconUrl;
-                document.head.appendChild(fallbackLink);
+            testImg.crossOrigin = 'anonymous';
+            
+            testImg.onload = function() {
+                // Image loaded successfully, try to create canvas favicon as backup
+                try {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 32;
+                    canvas.height = 32;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(testImg, 0, 0, 32, 32);
+                    
+                    // Convert to data URL
+                    const dataUrl = canvas.toDataURL('image/png');
+                    
+                    // Set as favicon
+                    const dataLink = document.createElement('link');
+                    dataLink.rel = 'icon';
+                    dataLink.type = 'image/png';
+                    dataLink.href = dataUrl;
+                    document.head.appendChild(dataLink);
+                } catch (e) {
+                    console.log('Canvas favicon creation failed, using URL');
+                }
             };
+            
+            testImg.onerror = function() {
+                console.warn('Favicon image failed to load from URL');
+                // Try original URL without cache busting
+                setFavicon(faviconUrl);
+                
+                // Ultimate fallback: create a simple colored favicon
+                try {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 32;
+                    canvas.height = 32;
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Draw a simple red circle (Sinterklaas theme)
+                    ctx.fillStyle = '#EF4444';
+                    ctx.beginPath();
+                    ctx.arc(16, 16, 14, 0, 2 * Math.PI);
+                    ctx.fill();
+                    
+                    // Add white text "S"
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.font = 'bold 20px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('S', 16, 16);
+                    
+                    const dataUrl = canvas.toDataURL('image/png');
+                    setFavicon(dataUrl);
+                } catch (e) {
+                    console.error('Could not create fallback favicon');
+                }
+            };
+            
+            // Start loading test
             testImg.src = faviconUrl;
         })();
     </script>
