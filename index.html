@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sinterklaas Gedicht Generator - PromptGorillas</title>
+    <link rel="icon" type="image/png" href="https://my.nomadsoffice.nl/images/0/20601772/SinterklaasGedichtGenerator-PromptGorillas3-u_qTKbVrqypLqlbzP76Z7w.png">
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -547,6 +548,206 @@
             color: var(--heading-blue);
         }
 
+        .download-word-btn {
+            background: linear-gradient(135deg, var(--button-blue), var(--heading-blue)) !important;
+            color: white !important;
+            font-size: 18px;
+            padding: 1.2rem 3rem !important;
+            box-shadow: 0 6px 20px rgba(60, 102, 250, 0.4);
+            border: none !important;
+        }
+
+        .download-word-btn:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 8px 25px rgba(60, 102, 250, 0.5) !important;
+        }
+
+        .new-poem-btn {
+            background: transparent !important;
+            color: rgba(255, 255, 255, 0.7) !important;
+            border: 1px solid rgba(255, 255, 255, 0.5) !important;
+            font-size: 14px;
+            padding: 0.6rem 1.5rem !important;
+        }
+
+        /* Download Modal */
+        .download-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .download-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 30px;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 3rem;
+            position: relative;
+            animation: modalSlideIn 0.4s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--text-gray);
+            cursor: pointer;
+            line-height: 1;
+            padding: 0.5rem;
+        }
+
+        .modal-close:hover {
+            color: var(--heading-blue);
+        }
+
+        .modal-header h2 {
+            color: var(--heading-blue);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-header p {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .preview-section {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .preview-section h3 {
+            color: var(--heading-blue);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .preview-image {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            margin: 0 auto;
+        }
+
+        .form-section {
+            background: var(--element-blue);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-top: 2rem;
+        }
+
+        .form-section h3 {
+            color: var(--heading-blue);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--heading-blue);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--white);
+            border-radius: 15px;
+            font-size: 1rem;
+            font-family: 'Instrument Sans', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--button-blue);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+
+        .modal-download-btn {
+            background: linear-gradient(135deg, var(--button-blue), var(--heading-blue));
+            color: white;
+            border: none;
+            padding: 1.2rem 3rem;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s;
+            font-family: 'Instrument Sans', sans-serif;
+            box-shadow: 0 6px 20px rgba(60, 102, 250, 0.4);
+        }
+
+        .modal-download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(60, 102, 250, 0.5);
+        }
+
+        .modal-download-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .modal-cancel-btn {
+            background: transparent;
+            color: var(--text-gray);
+            border: 2px solid var(--text-gray);
+            padding: 1.2rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-family: 'Instrument Sans', sans-serif;
+        }
+
+        .modal-cancel-btn:hover {
+            background: var(--text-gray);
+            color: white;
+        }
+
         .chat-input-area {
             padding: 1.5rem 2rem;
             background: var(--white);
@@ -1053,6 +1254,41 @@
         </div>
     </footer>
 
+    <!-- Download Modal -->
+    <div class="download-modal" id="downloadModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeDownloadModal()">×</button>
+            
+            <div class="modal-header">
+                <h2>Download je Gedicht op Mooi Papier</h2>
+                <p>Ontvang je persoonlijke Sinterklaasgedicht professioneel opgemaakt op prachtig Sinterklaas-papier. Je kunt de tekst daarna nog aanpassen naar eigen voorkeur in Word of Docs!</p>
+            </div>
+
+            <div class="preview-section">
+                <h3>Zo komt jouw gedicht eruit te zien:</h3>
+                <img src="https://my.nomadsoffice.nl/images/0/20601901/Schermafbeelding2025-11-05101718-AfAgY7WJqd9gW-e1KvC0iQ.png" alt="Voorbeeld Sinterklaas Gedicht" class="preview-image">
+            </div>
+
+            <div class="form-section">
+                <h3>Vul je gegevens in om te downloaden:</h3>
+                <form id="downloadForm" onsubmit="submitDownloadForm(event)">
+                    <div class="form-group">
+                        <label for="downloadName">Jouw naam *</label>
+                        <input type="text" id="downloadName" name="name" required placeholder="Bijv. Jan de Vries">
+                    </div>
+                    <div class="form-group">
+                        <label for="downloadEmail">E-mailadres *</label>
+                        <input type="email" id="downloadEmail" name="email" required placeholder="jouw@email.nl">
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" onclick="closeDownloadModal()" class="modal-cancel-btn">Annuleren</button>
+                        <button type="submit" class="modal-download-btn" id="modalDownloadBtn">Download Word Document</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Configuration - Override in Netlify environment variables or here -->
     <script>
         // Set backend URL for production (can be overridden via window.BACKEND_URL)
@@ -1274,8 +1510,7 @@
                     <h3>✨ Jouw Sinterklaasgedicht ✨</h3>
                     <div class="poem-text">${poem.replace(/\n/g, '<br>')}</div>
                     <div class="poem-actions">
-                        <button onclick="copyPoem()" class="copy-poem-btn">Kopieer Gedicht</button>
-                        <button onclick="downloadWord()" class="download-word-btn">Download als Word</button>
+                        <button onclick="showDownloadModal()" class="download-word-btn">📄 Download op Mooi Sinterklaas Papier</button>
                         <button onclick="startNewPoem()" class="new-poem-btn">Nieuw Gedicht Maken</button>
                     </div>
                 </div>
@@ -1300,36 +1535,67 @@
             }
         }
 
-        // Copy poem to clipboard
-        function copyPoem() {
-            const poemText = document.querySelector('.poem-text').innerText;
-            navigator.clipboard.writeText(poemText).then(() => {
-                const btn = event.target;
-                const originalText = btn.textContent;
-                btn.textContent = '✓ Gekopieerd!';
-                btn.style.background = 'var(--element-blue)';
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.background = 'white';
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy:', err);
-                alert('Kon gedicht niet kopiëren. Selecteer de tekst handmatig.');
-            });
+        // Show download modal
+        function showDownloadModal() {
+            const modal = document.getElementById('downloadModal');
+            modal.classList.add('active');
+            
+            // Clear previous form data
+            document.getElementById('downloadForm').reset();
+        }
+
+        // Close download modal
+        function closeDownloadModal() {
+            const modal = document.getElementById('downloadModal');
+            modal.classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('downloadModal');
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        closeDownloadModal();
+                    }
+                });
+            }
+        });
+
+        // Submit download form
+        async function submitDownloadForm(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('downloadName').value;
+            const email = document.getElementById('downloadEmail').value;
+            
+            // Close modal
+            closeDownloadModal();
+            
+            // Proceed with download
+            downloadWord(name, email);
         }
 
         // Download poem as Word document
-        async function downloadWord() {
+        async function downloadWord(userName, userEmail) {
             const poemText = document.querySelector('.poem-text').innerText;
-            const btn = event.target;
-            const originalText = btn.textContent;
             
-            // Show loading state
-            btn.disabled = true;
-            btn.textContent = 'Word wordt gegenereerd...';
+            // Show loading indicator
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'poem-generating';
+            loadingDiv.id = 'wordGenerating';
+            loadingDiv.innerHTML = `
+                <div class="poem-loading-content">
+                    <div class="poem-spinner"></div>
+                    <h3>Word document wordt gegenereerd...</h3>
+                    <p>Even geduld, we maken het extra mooi voor je!</p>
+                </div>
+            `;
+            chatMessages.appendChild(loadingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
             
             try {
-                // Send to n8n webhook
+                // Send to n8n webhook with user info
                 const response = await fetch(CONFIG.STYLING_WEBHOOK_URL, {
                     method: 'POST',
                     headers: {
@@ -1337,12 +1603,20 @@
                     },
                     body: JSON.stringify({
                         session_id: sessionId,
-                        poem: poemText
+                        poem: poemText,
+                        user_name: userName,
+                        user_email: userEmail
                     })
                 });
 
                 if (!response.ok) {
                     throw new Error('Webhook response was not ok');
+                }
+
+                // Remove loading indicator
+                const loadingIndicator = document.getElementById('wordGenerating');
+                if (loadingIndicator) {
+                    loadingIndicator.remove();
                 }
 
                 // Check if response is a file (blob) or JSON with file data
@@ -1360,11 +1634,8 @@
                     window.URL.revokeObjectURL(url);
                     document.body.removeChild(a);
                     
-                    btn.textContent = '✓ Gedownload!';
-                    setTimeout(() => {
-                        btn.textContent = originalText;
-                        btn.disabled = false;
-                    }, 2000);
+                    // Show success message
+                    addMessage('✓ Je gedicht is gedownload! Check je Downloads map. Je kunt de tekst nu aanpassen in Word of Google Docs naar eigen voorkeur.', false);
                 } else {
                     // JSON response with file data (base64)
                     const data = await response.json();
@@ -1390,20 +1661,22 @@
                         window.URL.revokeObjectURL(url);
                         document.body.removeChild(a);
                         
-                        btn.textContent = '✓ Gedownload!';
-                        setTimeout(() => {
-                            btn.textContent = originalText;
-                            btn.disabled = false;
-                        }, 2000);
+                        // Show success message
+                        addMessage('✓ Je gedicht is gedownload! Check je Downloads map. Je kunt de tekst nu aanpassen in Word of Google Docs naar eigen voorkeur.', false);
                     } else {
                         throw new Error('No file data in response');
                     }
                 }
             } catch (error) {
                 console.error('Error downloading Word:', error);
-                alert('Kon Word bestand niet genereren. Probeer het opnieuw.');
-                btn.textContent = originalText;
-                btn.disabled = false;
+                
+                // Remove loading indicator
+                const loadingIndicator = document.getElementById('wordGenerating');
+                if (loadingIndicator) {
+                    loadingIndicator.remove();
+                }
+                
+                addMessage('Sorry, er ging iets mis bij het genereren van het Word document. Probeer het opnieuw!', false);
             }
         }
 
