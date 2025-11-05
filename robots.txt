@@ -1,0 +1,9 @@
+# Robots.txt voor Sinterklaas Gedicht Generator
+# Alle bots welkom voor indexering
+
+User-agent: *
+Allow: /
+
+# Sitemap locatie
+Sitemap: https://sinterklaas.promptgorillas.com/sitemap.xml
+
