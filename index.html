@@ -1639,6 +1639,7 @@
         // Chat functionality
         let sessionId = null;
         let poemEventSource = null; // SSE connection
+        let currentPoem = null; // Store the current poem text
 
         // DOM elements
         const startChatBtn = document.getElementById('startChatBtn');
@@ -1816,6 +1817,9 @@
 
         // Display the final poem
         function displayPoem(poem) {
+            // Store the original poem text for download
+            currentPoem = poem;
+            
             const poemDiv = document.createElement('div');
             poemDiv.className = 'final-poem';
             poemDiv.innerHTML = `
@@ -1891,7 +1895,22 @@
 
         // Download poem as Word document
         async function downloadWord(userName, userEmail) {
-            const poemText = document.querySelector('.poem-text').innerText;
+            // Use the stored poem text instead of reading from DOM
+            if (!currentPoem) {
+                addMessage('Sorry, er ging iets mis. Het gedicht kon niet worden gevonden. Probeer een nieuw gedicht te maken.', false);
+                return;
+            }
+            
+            const poemText = currentPoem;
+            
+            // Debug: Log what we're about to send
+            console.log('Sending poem to webhook:', {
+                session_id: sessionId,
+                poem_length: poemText.length,
+                poem_preview: poemText.substring(0, 100) + '...',
+                user_name: userName,
+                user_email: userEmail
+            });
             
             // Show loading indicator
             const loadingDiv = document.createElement('div');
@@ -1995,6 +2014,8 @@
 
         // Start new poem session
         function startNewPoem() {
+            // Clear stored poem
+            currentPoem = null;
             location.reload();
         }
 
