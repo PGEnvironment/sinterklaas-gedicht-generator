@@ -449,7 +449,7 @@
 
         .chatbot-container {
             display: grid;
-            grid-template-columns: 400px 1fr;
+            grid-template-columns: 350px 1fr;
             gap: 3rem;
             align-items: stretch;
         }
@@ -491,7 +491,7 @@
         }
 
         .chat-messages {
-            padding: 2rem;
+            padding: 1.5rem;
             min-height: 500px;
             max-height: 600px;
             overflow-y: auto;
@@ -500,9 +500,9 @@
         }
 
         .message {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
             display: flex;
-            gap: 1rem;
+            gap: 0.875rem;
         }
 
         .message.bot {
@@ -533,9 +533,9 @@
 
         .message-content {
             background: var(--white);
-            padding: 1rem 1.5rem;
-            border-radius: 20px;
-            max-width: 70%;
+            padding: 0.875rem 1.25rem;
+            border-radius: 18px;
+            max-width: 75%;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
 
@@ -553,7 +553,7 @@
         }
 
         .style-button {
-            padding: 1rem 1.5rem;
+            padding: 0.875rem 1.25rem;
             background: var(--white);
             border: 2px solid var(--element-blue);
             border-radius: 15px;
@@ -561,7 +561,7 @@
             transition: all 0.3s;
             text-align: left;
             font-family: 'Instrument Sans', sans-serif;
-            font-size: 16px;
+            font-size: 15px;
         }
 
         .style-button:hover {
@@ -575,12 +575,13 @@
             color: var(--heading-blue);
             display: block;
             margin-bottom: 0.25rem;
-            font-size: 17px;
+            font-size: 16px;
         }
 
         .style-button span {
             color: var(--text-gray);
-            font-size: 14px;
+            font-size: 13px;
+            line-height: 1.3;
         }
 
         /* Poem Generation Loading */
@@ -2004,6 +2005,9 @@
             
             // Send to webhook
             sendMessage(styleValue);
+            
+            // Keep focus on input
+            setTimeout(() => chatInput.focus(), 100);
         }
 
         // Send message to webhook
@@ -2047,6 +2051,8 @@
                 addMessage('Sorry, er ging iets mis. Probeer het opnieuw!', false);
             } finally {
                 setLoading(false);
+                // Restore focus to input after response
+                setTimeout(() => chatInput.focus(), 100);
             }
         }
 
@@ -2062,7 +2068,7 @@
             chatInputArea.style.display = 'flex';
             
             // Add welcome message with style choices
-            const welcomeMessage = '<strong>Ho ho ho! Welkom bij Rijmpiet!</strong><br><br>' +
+            const welcomeMessage = '<strong>Welkom bij de Sinterklaas Gedicht Generator!</strong><br><br>' +
                 'Ik help je graag met een origineel Sinterklaasgedicht. Welke stijl past het beste bij de ontvanger?';
             
             addMessage(welcomeMessage, false, true);
@@ -2086,6 +2092,9 @@
                 
                 // Send to webhook
                 sendMessage(message);
+                
+                // Keep focus on input
+                setTimeout(() => chatInput.focus(), 100);
             }
         });
 
